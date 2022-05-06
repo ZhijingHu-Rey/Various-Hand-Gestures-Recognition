@@ -203,12 +203,6 @@ valid_sampler = SubsetRandomSampler(valid_idx)
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, num_workers=num_workers) #sampler=train_sampler,shuffle=True
 valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=batch_size, num_workers=num_workers) #sampler=valid_sampler,shuffle=True
 test_loader = torch.utils.data.DataLoader(testset, batch_size=1, num_workers=num_workers) 
-# -
-
-# Specify the image classes
-Names = ['"Stop"', '"Good"', '"Yes"', '"Love you"', '"No way"',
-           '"Okay"', '"Gimme a second"', '"Call me later"']
-print(Names)
 
 
 # +
@@ -252,6 +246,12 @@ print(model) # Network structure
 # Move tensors to GPU if CUDA is available
 if train_on_gpu:
     model.cuda()
+# -
+
+# Specify the image classes
+Names = ['"Stop"', '"Good"', '"Yes"', '"Love you"', '"No way"',
+           '"Okay"', '"Gimme a second"', '"Call me later"']
+print(Names)
 
 # +
 # specify loss function
@@ -327,7 +327,7 @@ for epoch in n_epochs:  # loop over the dataset multiple times
         print('Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(
         valid_loss_min,
         valid_loss))
-        torch.save(model.state_dict(), 'DL_model.pt')
+        #torch.save(model.state_dict(), 'DL_model.pt')
         valid_loss_min = valid_loss
 # -
 
@@ -375,7 +375,8 @@ for i, data in enumerate(test_loader):
 
     plt.subplot(3,5,i+1)
     plt.imshow(newimage)
-    plt.xlabel(f"Actual: {y_act}\n Predicted: {y_pred}")
+    #plt.xlabel(f"Actual: {y_act}\n Predicted: {y_pred}")
+    plt.xlabel(f"Actual: {Names[y_act]}\n Predicted: {Names[y_pred]}")
     #print("done loop")
 
 plt.tight_layout()
@@ -384,5 +385,4 @@ plt.show()
 # average test loss
 #test_loss = test_loss/len(test_loader.dataset)
 # -
-
 
